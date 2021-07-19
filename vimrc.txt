@@ -1,4 +1,6 @@
+
 set nocompatible
+
 
 call plug#begin('~/AppData/Local/nvim/plugged')
 " Дополнения для NERDTree
@@ -9,9 +11,6 @@ Plug 'voldikss/vim-floaterm'
 " Use release branch (recommend)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-"Tabnine
-"Plug 'zxqfl/tabnine-vim' 
-
 " FuzzyFinder (для быстрого поиска)
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -19,7 +18,7 @@ Plug 'junegunn/fzf.vim'
 " NERDTree - быстрый просмотр файлов
 Plug 'preservim/nerdtree'
 
-Plug 'honza/vim-snippets'
+"Plug 'honza/vim-snippets'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'scrooloose/nerdcommenter'
 
@@ -35,17 +34,13 @@ Plug 'itchyny/lightline.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'cocopon/iceberg.vim'
 Plug 'mhartington/oceanic-next'
+Plug 'phanviet/vim-monokai-pro'
 
 " Проверка Синтаксиса
-Plug 'scrooloose/syntastic' 
+Plug 'scrooloose/syntastic'
 
 " Поддержка Python
 Plug 'klen/python-mode'
-
-"vim snippets by HONZA"
-
-"Emmet plugin
-Plug 'mattn/emmet-vim'
 
 "line up down
 Plug 'matze/vim-move'
@@ -56,36 +51,50 @@ Plug 'yggdroot/indentline'
 "syntax highlight
 Plug 'sheerun/vim-polyglot'
 
+"cursorline
+Plug 'sstallion/vim-cursorline'
+
+"Formatter
+Plug 'chiel92/vim-autoformat'
+
+"Comfortable motion Vim
+Plug 'yuttie/comfortable-motion.vim'
+
 call plug#end()
 
+"formatter configuration
+noremap <A-F> : Autoformat<CR>
 
 "indentline configuration
 let g:indentLine_char = '|'
 
 "Move change
-nmap <A-Up> <Plug>MoveLineUp 
+nmap <A-Up> <Plug>MoveLineUp
 nmap <A-Down> <Plug>MoveLineDown
-nmap <A-Left> <Plug>MoveCharLeft 
+nmap <A-Left> <Plug>MoveCharLeft
 nmap <A-Right> <Plug>MoveCharRight
 
-vmap <A-Up> <Plug>MoveBlockUp 
+vmap <A-Up> <Plug>MoveBlockUp
 vmap <A-Down> <Plug>MoveBlockDown
-vmap <A-Left> <Plug>MoveBlockLeft 
+vmap <A-Left> <Plug>MoveBlockLeft
 vmap <A-Right> <Plug>MoveBlockRight
 
 
 "Terminal floatterm
 let g:floaterm_shell = 'powershell'
-let g:floaterm_keymap_toggle = '<Leader>'
+let g:floaterm_keymap_toggle = '<leader>'
+let g:floaterm_keymap_new = '<leader>t'
 let g:floaterm_width = 0.6
-let g:floaterm_height = 0.3
+let g:floaterm_height = 0.4
 let g:floaterm_position = 'bottomright'
 
-" Обычные настройки вима 
+" Обычные настройки вима
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set clipboard+=unnamedplus
+
+set cursorline
 
 " Активировать номера строк
 set number
@@ -96,9 +105,8 @@ set nocompatible
 set t_Co=256
 set nowrap
 
- "В нормальном режиме Ctrl+n вызывает :NERDTree
-nnoremap <leader>n :NERDTreeFocus<CR>
-nmap <C-o> :NERDTreeToggle<CR>
+"В нормальном режиме Ctrl+n вызывает :NERDTree
+nmap <TAB> :NERDTreeToggle<CR>
 vmap ++ <plug>NERDCommenterToggle<CR>
 nmap ++ <plug>NERDCommenterToggle<CR>
 
@@ -108,7 +116,8 @@ let g:NERDTreeIgnore = ['^node_modules$']
 
 " Тема для **NeoVim**
 syntax on
-colorscheme OceanicNext
+set termguicolors
+colorscheme monokai_pro
 
 "Filesystem work on git
 let $PATH = "C:\\Program Files\\Git\\usr\\bin;".$PATH
@@ -120,42 +129,43 @@ map ; :Files<CR>
 
 "lightline status bar
 let g:lightline = {
-            \ 'colorscheme': 'oceanicnext',
-			\ 'active': {
-			\   'left': [ [ 'mode', 'paste' ],
-			\             [ 'gitbranch', 'statusline', 'readonly', 'filename', 'modified' ] ]
-			\ },
-            \ 'component_function': {
-            \   'gitbranch' : 'fugitive#head',
-            \   'statusline' : 'fugitive#statusline'
-            \ },
-			\ }
+            \ 'colorscheme': 'monokai_pro',
+            \ 'active': {
+                \   'left': [ [ 'mode', 'paste' ],
+                \             [ 'gitbranch', 'statusline', 'readonly', 'filename', 'modified' ] ]
+                \ },
+                \ 'component_function': {
+                    \   'gitbranch' : 'fugitive#head',
+                    \   'statusline' : 'fugitive#statusline'
+                    \ },
+                    \ }
 
-" Настройка coc.nvim 
+" Настройка coc.nvim
 set encoding=utf-8
 
 let g:coc_global_extensions = [
-    \ 'coc-snippets',
-    \ 'coc-pairs',
-    \ 'coc-tsserver',
-    \ 'coc-eslint',
-    \ 'coc-prettier',
-    \ 'coc-json',
-    \ 'coc-tabnine',
-    \ ]
+            \ 'coc-snippets',
+            \ 'coc-pairs',
+            \ 'coc-tsserver',
+            \ 'coc-eslint',
+            \ 'coc-prettier',
+            \ 'coc-json',
+            \ 'coc-tabnine',
+            \ 'coc-emmet'
+            \ ]
 
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
 
-set hidden 
+set hidden
 set nobackup
 set nowritebackup
 
@@ -166,15 +176,15 @@ set updatetime=300
 nnoremap <silent>K : call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-      if (index(['vim','help'], &filetype) >= 0)
-            execute 'h '.expand('<cword>')
-        elseif (coc#rpc#ready())
-            call CocActionAsync('doHover')
-        else
-            execute '!' . &keywordprg . " " . expand('<cword>')
-        endif                   
+    if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+        call CocActionAsync('doHover')
+    else
+        execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
 endfunction
 
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
