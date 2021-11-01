@@ -63,6 +63,8 @@ Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 
 Plug 'terryma/vim-multiple-cursors'
 
+Plug 'mengelbrecht/lightline-bufferline'
+
 call plug#end()
 "FuzzyFinder
 let g:ackprg='ag --vimgrep'
@@ -92,6 +94,8 @@ let g:floaterm_keymap_new = '<leader>t'
 let g:floaterm_width = 0.6
 let g:floaterm_height = 0.4
 let g:floaterm_position = 'bottomright'
+
+tnoremap <Esc> <C-\><C-n>
 
 " Обычные настройки вима
 set tabstop=4
@@ -131,7 +135,7 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6  }  }
 let $fzf_colors='ansi'
 map ; :Files<CR>
 
-
+let g:lightline#bufferline#show_number  = 1
 "lightline status bar
 let g:lightline = {
             \ 'colorscheme': 'iceberg',
@@ -140,9 +144,13 @@ let g:lightline = {
                 \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
                 \ },
                 \ 'component_function': {
-                    \   'gitbranch' : 'fugitive#head',
-                    \ },
-                    \ }
+                \   'gitbranch' : 'fugitive#head',
+                \ }
+                \ }
+
+let g:lightline.tabline = {'left': [['buffers']], 'right': [['close']]}
+let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+let g:lightline.component_type   = {'buffers': 'tabsel'}
 
 " Настройка coc.nvim
 set encoding=utf-8
@@ -159,6 +167,7 @@ let g:coc_global_extensions = [
             \ 'coc-cmake',
             \ 'coc-python',
             \ 'coc-html',
+            \ 'coc-css'
             \ ]
 
 inoremap <silent><expr> <TAB>
